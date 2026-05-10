@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>60 Voices for Robin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F6F1E9;
+    --ink: #1A1714;
+    --gold: #B8954A;
+    --gold-light: rgba(184,149,74,0.12);
+    --rust: #8B4A2C;
+    --sage: #4A5C4E;
+    --warm-gray: #8A837A;
+    --mid: #C5BEB5;
+    --border: rgba(184,149,74,0.22);
+    --border-soft: rgba(26,23,20,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grain */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Layout */
+  .wrap { max-width: 660px; margin: 0 auto; padding: 0 1.75rem; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 0 4rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: up 0.7s ease forwards 0.1s;
+  }
+
+  .hero-rule span {
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .hero-rule::before,
+  .hero-rule::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 0.5px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 13vw, 6.5rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    opacity: 0;
+    animation: up 0.8s ease forwards 0.25s;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 2.25rem auto;
+    opacity: 0;
+    animation: up 0.7s ease forwards 0.45s;
+  }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--warm-gray);
+    line-height: 1.65;
+    max-width: 420px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: up 0.8s ease forwards 0.6s;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    padding: 3.5rem 0;
+    border-top: 0.5px solid var(--border);
+    opacity: 0;
+    animation: up 0.8s ease forwards 0.8s;
+  }
+
+  .intro p {
+    font-size: 0.975rem;
+    line-height: 1.95;
+    color: var(--ink);
+    margin-bottom: 1.1rem;
+  }
+
+  .intro p:last-child { margin-bottom: 0; }
+
+  .intro strong {
+    font-weight: 500;
+    color: var(--rust);
+  }
+
+  .intro em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05em;
+  }
+
+  /* ── PROMPT BOX ── */
+  .prompt {
+    background: var(--ink);
+    padding: 2.75rem 2.5rem 2.5rem;
+    margin: 0.5rem 0 3.5rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: up 0.8s ease forwards 0.95s;
+  }
+
+  .prompt::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11rem;
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.18;
+    position: absolute;
+    top: -2rem;
+    left: 1rem;
+    pointer-events: none;
+  }
+
+  .prompt-tag {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.1rem;
+    display: block;
+  }
+
+  .prompt-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--cream);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── FORM ── */
+  .form-section {
+    padding-bottom: 5rem;
+    opacity: 0;
+    animation: up 0.8s ease forwards 1.05s;
+  }
+
+  .form-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .form-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-header p {
+    font-size: 0.875rem;
+    color: var(--warm-gray);
+    line-height: 1.7;
+  }
+
+  .field { margin-bottom: 2rem; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  label {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-bottom: 0.65rem;
+  }
+
+  label .opt {
+    font-size: 8.5px;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    color: var(--mid);
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-soft);
+    padding: 0.55rem 0 0.55rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.25s;
+    border-radius: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-bottom-color: var(--gold);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--mid);
+    font-style: italic;
+  }
+
+  textarea {
+    resize: none;
+    height: 130px;
+    line-height: 1.65;
+  }
+
+  .counter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.4rem;
+  }
+
+  .counter-num {
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .counter-num.warn { color: var(--rust); }
+
+  /* Photo upload */
+  .upload-zone {
+    border: 1px dashed var(--border);
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s;
+    position: relative;
+  }
+
+  .upload-zone:hover, .upload-zone.drag {
+    border-color: var(--gold);
+    background: var(--gold-light);
+  }
+
+  .upload-zone input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 0.8rem;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  .upload-text {
+    font-size: 0.875rem;
+    color: var(--warm-gray);
+    line-height: 1.6;
+  }
+
+  .upload-text a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .upload-sub {
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 0.3rem;
+  }
+
+  .thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+
+  .thumb-wrap {
+    position: relative;
+    width: 76px;
+    height: 76px;
+  }
+
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .thumb-remove {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-note {
+    font-size: 11px;
+    color: var(--warm-gray);
+    margin-top: 0.75rem;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+  }
+
+  /* Privacy note */
+  .privacy-note {
+    background: var(--gold-light);
+    border-left: 2px solid var(--gold);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--warm-gray);
+    line-height: 1.7;
+  }
+
+  .privacy-note strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Submit */
+  .submit-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 1.05rem 2.75rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn:hover { background: var(--rust); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn svg { width: 14px; height: 14px; }
+
+  .submit-aside {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--mid);
+  }
+
+  /* Error */
+  .error-msg {
+    background: #FEF2F2;
+    border-left: 2px solid #DC2626;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #991B1B;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+
+  /* ── SUCCESS ── */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 5rem 1rem;
+  }
+
+  .success-screen.show { display: block; }
+
+  .success-mark {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .success-mark svg { width: 22px; height: 22px; }
+
+  .success-screen h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.25rem;
+    font-weight: 300;
+    margin-bottom: 0.75rem;
+  }
+
+  .success-screen p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--warm-gray);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    border-top: 0.5px solid var(--border);
+    padding: 3.5rem 0 4rem;
+  }
+
+  .how h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .step-n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.25rem;
+    font-weight: 300;
+    color: var(--gold);
+    opacity: 0.55;
+    line-height: 1;
+    min-width: 1.75rem;
+    padding-top: 0.2rem;
+  }
+
+  .step-body {
+    font-size: 0.925rem;
+    line-height: 1.85;
+    color: var(--ink);
+    padding-top: 0.3rem;
+  }
+
+  .step-body strong { font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 1.75rem 0;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+  }
+
+  /* Animations */
+  @keyframes up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Loading spinner */
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(246,241,233,0.3);
+    border-top-color: var(--cream);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-rule"><span>A gift for Robin</span></div>
+    <h1>60<em>Voices</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">She is turning 60 on June 1. Leave her a note. Share a memory. It will become something she keeps forever.</p>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <p>Robin Shaddy is someone who has shown up — fully, generously, and with her whole self — across many chapters and many lives. On June 1, she turns 60.</p>
+    <p>The people who love Robin are spread across the country and across the years. This page is a way of gathering all of you together. <strong>Every note left here — and every photograph shared — will be given to artist Cagney King,</strong> who will use them as the foundation for a portrait of Robin.</p>
+    <p>Not a traditional likeness. <em>A painting that captures who she is, told through the words and images of the people who know her.</em> The finished work will be gifted to Robin — a surprise she won't see coming.</p>
+    <p>On June 1, a selection of your notes will be read aloud to Robin as part of her celebration. She will hear your voice, even if you can't be there.</p>
+  </section>
+
+  <!-- PROMPT -->
+  <div class="prompt">
+    <span class="prompt-tag">Your prompt</span>
+    <div class="prompt-body">In a few sentences — who is Robin to you? What do you want for her in this next chapter? What should the painter know about her?</div>
+  </div>
+
+  <!-- FORM -->
+  <section class="form-section" id="formSection">
+    <div class="form-header">
+      <h2>Leave your voice</h2>
+      <p>Your note and any photos you share will go directly to Aaron, and eventually to the artist. Robin won't see this page.</p>
+    </div>
+
+    <div class="privacy-note">
+      <strong>A note on privacy:</strong> This page is not public and Robin does not have the link. Everything you submit goes only to Aaron. Your email will never be shared or used for anything other than a thank-you from him.
+    </div>
+
+    <div class="error-msg" id="errorMsg">Something went wrong. Please try again, or email Aaron directly at ashaddy@gmail.com.</div>
+
+    <form id="voiceForm" novalidate>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="fname">Your name</label>
+          <input type="text" id="fname" name="name" placeholder="First Last" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="relation">How you know Robin</label>
+          <input type="text" id="relation" name="relation" placeholder="e.g. college friend, neighbor…">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Your email <span class="opt">(so Aaron can thank you)</span></label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label for="note">Your note to Robin</label>
+        <textarea id="note" name="note" placeholder="Write freely. There are no rules here, and no wrong answers." maxlength="800" required></textarea>
+        <div class="counter">
+          <span></span>
+          <span class="counter-num" id="counterNum">0 / 800</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Photos of you with Robin <span class="opt">(optional — up to 3)</span></label>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5A.75.75 0 0121 3.75v13.5a.75.75 0 01-.75.75H3.75A.75.75 0 013 17.25V3.75A.75.75 0 013.75 3zM9.75 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+          </svg>
+          <div class="upload-text">Drop photos here, or <a onclick="document.getElementById('photoInput').click(); event.preventDefault();">browse</a></div>
+          <div class="upload-sub">JPG or PNG · up to 3 photos · 10MB each</div>
+        </div>
+        <div class="thumbs" id="thumbs"></div>
+        <p class="photo-note" id="photoNote" style="display:none">The artist will use these alongside your words. They don't need to be perfect.</p>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn" id="submitBtn">
+          <span id="btnText">Send my voice</span>
+          <svg id="btnArrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
+          <div class="spinner" id="spinner"></div>
+        </button>
+        <span class="submit-aside">Robin won't see this. Aaron will.</span>
+      </div>
+
+    </form>
+
+    <!-- Success -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+        </svg>
+      </div>
+      <h2>Your voice has been added.</h2>
+      <p>Thank you. What you wrote will be part of something Robin keeps for the rest of her life.</p>
+    </div>
+
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <h2>How this becomes a painting</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-body"><strong>Your words are read aloud on her birthday.</strong> A selection of notes will be shared with Robin as part of her June 1 celebration. She will hear voices from across her life — people who couldn't be in the room.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-body"><strong>Everything goes to the artist.</strong> Cagney King — whose work Robin already loves — will receive every note, every photograph, and Robin's own private journal from her 60th year.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-body"><strong>A portrait is made.</strong> Cagney's abstract portraiture layers texture, text, and emotion. Your words may become part of the paint itself. The finished work will reflect not just Robin's face, but who she is.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">4</div>
+        <div class="step-body"><strong>Robin receives it as a gift.</strong> The painting will be gifted to Robin — a surprise that began here, with you.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Made with love by Aaron, for Robin &nbsp;·&nbsp; June 1, 2026
+  </footer>
+
+</div>
+
+<script>
+  // ── Photo handling ──
+  let selectedFiles = [];
+
+  const photoInput = document.getElementById('photoInput');
+  const thumbsEl   = document.getElementById('thumbs');
+  const photoNote  = document.getElementById('photoNote');
+  const uploadZone = document.getElementById('uploadZone');
+
+  photoInput.addEventListener('change', e => addFiles(e.target.files));
+
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag');
+    addFiles(e.dataTransfer.files);
+  });
+
+  function addFiles(files) {
+    const allowed = Array.from(files).filter(f => f.type.startsWith('image/'));
+    const remaining = 3 - selectedFiles.length;
+    const toAdd = allowed.slice(0, remaining);
+    toAdd.forEach(f => {
+      selectedFiles.push(f);
+      const wrap = document.createElement('div');
+      wrap.className = 'thumb-wrap';
+      const img = document.createElement('img');
+      const btn = document.createElement('button');
+      btn.className = 'thumb-remove';
+      btn.innerHTML = '×';
+      btn.title = 'Remove';
+      const idx = selectedFiles.length - 1;
+      btn.onclick = () => removeFile(idx, wrap);
+      const reader = new FileReader();
+      reader.onload = e => img.src = e.target.result;
+      reader.readAsDataURL(f);
+      wrap.appendChild(img);
+      wrap.appendChild(btn);
+      thumbsEl.appendChild(wrap);
+    });
+    if (selectedFiles.length > 0) photoNote.style.display = 'block';
+  }
+
+  function removeFile(idx, wrap) {
+    selectedFiles.splice(idx, 1);
+    wrap.remove();
+    if (selectedFiles.length === 0) photoNote.style.display = 'none';
+  }
+
+  // ── Character counter ──
+  const noteEl    = document.getElementById('note');
+  const counterEl = document.getElementById('counterNum');
+
+  noteEl.addEventListener('input', () => {
+    const len = noteEl.value.length;
+    const max = parseInt(noteEl.getAttribute('maxlength'));
+    counterEl.textContent = len + ' / ' + max;
+    counterEl.className = 'counter-num' + (len > max * 0.88 ? ' warn' : '');
+  });
+
+  // ── Form submission ──
+  // Submits to Formspree (free, no backend needed).
+  // Replace YOUR_FORM_ID below with the ID from formspree.io after creating a free account.
+  // Photos are base64-encoded and included in the submission.
+  // Formspree free tier: 50 submissions/month — more than enough.
+
+  const FORMSPREE_ID = 'mwvywyyw'; // ← replace this
+
+  document.getElementById('voiceForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name     = document.getElementById('fname').value.trim();
+    const relation = document.getElementById('relation').value.trim();
+    const email    = document.getElementById('email').value.trim();
+    const note     = noteEl.value.trim();
+
+    if (!name || !note) {
+      document.getElementById('errorMsg').style.display = 'block';
+      document.getElementById('errorMsg').textContent = 'Please add your name and a note before submitting.';
+      return;
+    }
+
+    // UI: loading state
+    const btn     = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnArr  = document.getElementById('btnArrow');
+    const spinner = document.getElementById('spinner');
+    btn.disabled  = true;
+    btnText.textContent = 'Sending…';
+    btnArr.style.display = 'none';
+    spinner.style.display = 'block';
+    document.getElementById('errorMsg').style.display = 'none';
+
+    // Encode photos as base64
+    const photoData = await Promise.all(selectedFiles.map(f => new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res({ name: f.name, size: f.size, data: r.result });
+      r.onerror = rej;
+      r.readAsDataURL(f);
+    })));
+
+    const payload = {
+      name, relation, email, note,
+      photos: photoData.map(p => `${p.name} (${Math.round(p.size/1024)}KB): ${p.data}`).join('\n\n'),
+      submitted: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
+    };
+
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        document.getElementById('voiceForm').style.display = 'none';
+        document.getElementById('successScreen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btnText.textContent = 'Send my voice';
+      btnArr.style.display = '';
+      spinner.style.display = 'none';
+      document.getElementById('errorMsg').style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
