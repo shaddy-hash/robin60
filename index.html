@@ -613,7 +613,11 @@
 
     <div class="error-msg" id="errorMsg">Something went wrong. Please try again, or email Aaron directly at ashaddy@gmail.com.</div>
 
-    <form id="voiceForm" novalidate>
+    <!-- IMPORTANT: Replace YOUR_FORM_ID with your Formspree form ID -->
+    <form id="voiceForm" action="https://formspree.io/f/mwvywyyw" method="POST" enctype="multipart/form-data" novalidate>
+
+      <!-- Formspree requires _replyto for reply-to email -->
+      <input type="hidden" name="_subject" value="60 Voices for Robin — new submission">
 
       <div class="field-row">
         <div class="field">
@@ -628,7 +632,7 @@
 
       <div class="field">
         <label for="email">Your email <span class="opt">(so Aaron can thank you)</span></label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+        <input type="email" id="email" name="_replyto" placeholder="you@example.com" autocomplete="email">
       </div>
 
       <div class="field">
@@ -643,7 +647,7 @@
       <div class="field">
         <label>Photos of you with Robin <span class="opt">(optional — up to 3)</span></label>
         <div class="upload-zone" id="uploadZone">
-          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+          <input type="file" id="photoInput" name="photos" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
           <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5A.75.75 0 0121 3.75v13.5a.75.75 0 01-.75.75H3.75A.75.75 0 013 17.25V3.75A.75.75 0 013.75 3zM9.75 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
           </svg>
@@ -723,7 +727,15 @@
   uploadZone.addEventListener('drop', e => {
     e.preventDefault();
     uploadZone.classList.remove('drag');
-    addFiles(e.dataTransfer.files);
+    // Sync dropped files into the real file input so they submit with the form
+    const dt = e.dataTransfer;
+    addFiles(dt.files);
+    // Transfer files to input via DataTransfer
+    try {
+      const transfer = new DataTransfer();
+      selectedFiles.forEach(f => transfer.items.add(f));
+      photoInput.files = transfer.files;
+    } catch(e) {}
   });
 
   function addFiles(files) {
@@ -736,11 +748,22 @@
       wrap.className = 'thumb-wrap';
       const img = document.createElement('img');
       const btn = document.createElement('button');
+      btn.type = 'button';
       btn.className = 'thumb-remove';
       btn.innerHTML = '×';
       btn.title = 'Remove';
-      const idx = selectedFiles.length - 1;
-      btn.onclick = () => removeFile(idx, wrap);
+      btn.onclick = () => {
+        const i = selectedFiles.indexOf(f);
+        if (i > -1) selectedFiles.splice(i, 1);
+        wrap.remove();
+        // Sync back to input
+        try {
+          const transfer = new DataTransfer();
+          selectedFiles.forEach(sf => transfer.items.add(sf));
+          photoInput.files = transfer.files;
+        } catch(e) {}
+        if (selectedFiles.length === 0) photoNote.style.display = 'none';
+      };
       const reader = new FileReader();
       reader.onload = e => img.src = e.target.result;
       reader.readAsDataURL(f);
@@ -749,12 +772,12 @@
       thumbsEl.appendChild(wrap);
     });
     if (selectedFiles.length > 0) photoNote.style.display = 'block';
-  }
-
-  function removeFile(idx, wrap) {
-    selectedFiles.splice(idx, 1);
-    wrap.remove();
-    if (selectedFiles.length === 0) photoNote.style.display = 'none';
+    // Sync to input
+    try {
+      const transfer = new DataTransfer();
+      selectedFiles.forEach(sf => transfer.items.add(sf));
+      photoInput.files = transfer.files;
+    } catch(e) {}
   }
 
   // ── Character counter ──
@@ -769,24 +792,20 @@
   });
 
   // ── Form submission ──
-  // Submits to Formspree (free, no backend needed).
-  // Replace YOUR_FORM_ID below with the ID from formspree.io after creating a free account.
-  // Photos are base64-encoded and included in the submission.
-  // Formspree free tier: 50 submissions/month — more than enough.
-
-  const FORMSPREE_ID = 'mwvywyyw'; // ← replace this
+  // Uses native multipart/form-data so Formspree receives photos as real file attachments.
+  // Photos are viewable in the Formspree dashboard and emailed as attachments.
+  // Requires Formspree Personal plan ($10/mo) or higher for file uploads.
 
   document.getElementById('voiceForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name     = document.getElementById('fname').value.trim();
-    const relation = document.getElementById('relation').value.trim();
-    const email    = document.getElementById('email').value.trim();
-    const note     = noteEl.value.trim();
+    const name = document.getElementById('fname').value.trim();
+    const note = noteEl.value.trim();
 
     if (!name || !note) {
-      document.getElementById('errorMsg').style.display = 'block';
-      document.getElementById('errorMsg').textContent = 'Please add your name and a note before submitting.';
+      const err = document.getElementById('errorMsg');
+      err.textContent = 'Please add your name and a note before submitting.';
+      err.style.display = 'block';
       return;
     }
 
@@ -801,25 +820,14 @@
     spinner.style.display = 'block';
     document.getElementById('errorMsg').style.display = 'none';
 
-    // Encode photos as base64
-    const photoData = await Promise.all(selectedFiles.map(f => new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res({ name: f.name, size: f.size, data: r.result });
-      r.onerror = rej;
-      r.readAsDataURL(f);
-    })));
-
-    const payload = {
-      name, relation, email, note,
-      photos: photoData.map(p => `${p.name} (${Math.round(p.size/1024)}KB): ${p.data}`).join('\n\n'),
-      submitted: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
-    };
+    // Build FormData — this sends files as real attachments
+    const formData = new FormData(e.target);
 
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const res = await fetch(e.target.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Accept': 'application/json' },
+        body: formData
       });
 
       if (res.ok) {
@@ -827,14 +835,17 @@
         document.getElementById('successScreen').classList.add('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        throw new Error('Server error');
+        const data = await res.json();
+        throw new Error(data?.errors?.[0]?.message || 'Server error');
       }
     } catch (err) {
       btn.disabled = false;
       btnText.textContent = 'Send my voice';
       btnArr.style.display = '';
       spinner.style.display = 'none';
-      document.getElementById('errorMsg').style.display = 'block';
+      const errEl = document.getElementById('errorMsg');
+      errEl.textContent = 'Something went wrong. Please try again, or email Aaron directly at ashaddy@gmail.com.';
+      errEl.style.display = 'block';
     }
   });
 </script>
