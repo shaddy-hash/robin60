@@ -8,20 +8,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #F6F1E9;
-    --ink: #1A1714;
-    --gold: #B8954A;
-    --gold-light: rgba(184,149,74,0.12);
-    --rust: #8B4A2C;
-    --sage: #4A5C4E;
-    --warm-gray: #8A837A;
-    --mid: #C5BEB5;
-    --border: rgba(184,149,74,0.22);
-    --border-soft: rgba(26,23,20,0.08);
+    --coral:       #E8553E;
+    --coral-light: #FDF0ED;
+    --violet:      #7B4FA6;
+    --violet-light:#F3EDF9;
+    --teal:        #1E9E8F;
+    --teal-light:  #E6F7F5;
+    --gold:        #D4882A;
+    --gold-light:  #FDF4E7;
+    --ink:         #1A1714;
+    --cream:       #FDFAF5;
+    --warm-gray:   #7A736C;
+    --mid:         #C0B8B0;
+    --border:      rgba(212,136,42,0.2);
+    --border-soft: rgba(26,23,20,0.09);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -33,131 +36,208 @@
     overflow-x: hidden;
   }
 
-  /* Subtle grain */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Layout */
-  .wrap { max-width: 660px; margin: 0 auto; padding: 0 1.75rem; }
-
-  /* ── HERO ── */
-  .hero {
-    padding: 5rem 0 4rem;
+  /* HERO */
+  .hero-band {
+    background: linear-gradient(135deg, #E8553E 0%, #D4882A 28%, #7B4FA6 58%, #1E9E8F 100%);
+    padding: 4.5rem 1.75rem 5rem;
     text-align: center;
     position: relative;
+    overflow: hidden;
   }
 
-  .hero-rule {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  .hero-band::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+    top: -120px; left: -100px;
+    pointer-events: none;
+  }
+
+  .hero-band::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 40% 60% 30% 70% / 60% 40% 60% 40%;
+    bottom: -100px; right: -80px;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 1.5rem;
     opacity: 0;
     animation: up 0.7s ease forwards 0.1s;
-  }
-
-  .hero-rule span {
-    font-size: 9.5px;
-    font-weight: 500;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .hero-rule::before,
-  .hero-rule::after {
-    content: '';
-    flex: 1;
-    max-width: 60px;
-    height: 0.5px;
-    background: var(--gold);
-    opacity: 0.5;
+    position: relative; z-index: 1;
   }
 
   h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(4rem, 13vw, 6.5rem);
+    font-size: clamp(4rem, 14vw, 7rem);
     font-weight: 300;
-    line-height: 0.9;
+    line-height: 0.88;
     letter-spacing: -0.02em;
-    color: var(--ink);
+    color: #fff;
     opacity: 0;
     animation: up 0.8s ease forwards 0.25s;
+    position: relative; z-index: 1;
   }
 
-  h1 em {
-    font-style: italic;
-    color: var(--gold);
-    display: block;
-  }
+  h1 em { font-style: italic; display: block; color: rgba(255,255,255,0.88); }
 
   .hero-divider {
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    margin: 2.25rem auto;
+    width: 2px; height: 52px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0));
+    margin: 2rem auto;
     opacity: 0;
     animation: up 0.7s ease forwards 0.45s;
+    position: relative; z-index: 1;
   }
 
   .hero-tagline {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-style: italic;
     font-weight: 300;
-    color: var(--warm-gray);
+    color: rgba(255,255,255,0.9);
     line-height: 1.65;
-    max-width: 420px;
+    max-width: 440px;
     margin: 0 auto;
     opacity: 0;
     animation: up 0.8s ease forwards 0.6s;
+    position: relative; z-index: 1;
   }
 
-  /* ── INTRO ── */
+  /* SECRET BANNER */
+  .secret-banner {
+    background: var(--coral);
+    color: #fff;
+    text-align: center;
+    padding: 0.85rem 1.75rem;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* LAYOUT */
+  .wrap { max-width: 660px; margin: 0 auto; padding: 0 1.75rem; }
+
+  /* INTRO */
   .intro {
-    padding: 3.5rem 0;
-    border-top: 0.5px solid var(--border);
+    padding: 3.5rem 0 2.5rem;
     opacity: 0;
     animation: up 0.8s ease forwards 0.8s;
   }
 
   .intro p {
-    font-size: 0.975rem;
+    font-size: 1rem;
     line-height: 1.95;
     color: var(--ink);
     margin-bottom: 1.1rem;
   }
 
   .intro p:last-child { margin-bottom: 0; }
+  .intro strong { font-weight: 500; color: var(--coral); }
+  .intro em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05em; }
 
-  .intro strong {
+  /* JOURNEY */
+  .journey {
+    margin: 2rem 0 3rem;
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    animation: up 0.8s ease forwards 0.9s;
+  }
+
+  .journey-header {
+    background: linear-gradient(135deg, var(--violet) 0%, var(--teal) 100%);
+    padding: 1.75rem 2rem;
+  }
+
+  .j-label {
+    font-size: 9.5px;
     font-weight: 500;
-    color: var(--rust);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 0.6rem;
+    display: block;
   }
 
-  .intro em {
+  .journey-header h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.05em;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.2;
   }
 
-  /* ── PROMPT BOX ── */
+  .journey-body {
+    background: var(--violet-light);
+    border: 1px solid rgba(123,79,166,0.15);
+    border-top: none;
+    padding: 1.75rem 2rem;
+  }
+
+  .journey-body p {
+    font-size: 0.975rem;
+    line-height: 1.9;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .journey-body p:last-child { margin-bottom: 0; }
+  .journey-body strong { font-weight: 500; color: var(--violet); }
+
+  .journey-pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin: 1.25rem 0;
+  }
+
+  @media (max-width: 480px) { .journey-pillars { grid-template-columns: 1fr; } }
+
+  .pillar {
+    background: #fff;
+    border: 1px solid rgba(123,79,166,0.12);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .pillar-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .pillar-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* PROMPT */
   .prompt {
     background: var(--ink);
     padding: 2.75rem 2.5rem 2.5rem;
-    margin: 0.5rem 0 3.5rem;
+    margin: 0 0 3rem;
     position: relative;
     overflow: hidden;
     opacity: 0;
-    animation: up 0.8s ease forwards 0.95s;
+    animation: up 0.8s ease forwards 1s;
+    border-radius: 4px;
   }
 
   .prompt::before {
@@ -166,20 +246,19 @@
     font-size: 11rem;
     line-height: 1;
     color: var(--gold);
-    opacity: 0.18;
+    opacity: 0.2;
     position: absolute;
-    top: -2rem;
-    left: 1rem;
+    top: -2rem; left: 1rem;
     pointer-events: none;
   }
 
   .prompt-tag {
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 1.1rem;
+    margin-bottom: 1rem;
     display: block;
   }
 
@@ -189,21 +268,18 @@
     font-style: italic;
     font-weight: 300;
     line-height: 1.6;
-    color: var(--cream);
-    position: relative;
-    z-index: 1;
+    color: #fff;
+    position: relative; z-index: 1;
   }
 
-  /* ── FORM ── */
+  /* FORM */
   .form-section {
     padding-bottom: 5rem;
     opacity: 0;
-    animation: up 0.8s ease forwards 1.05s;
+    animation: up 0.8s ease forwards 1.1s;
   }
 
-  .form-header {
-    margin-bottom: 2.5rem;
-  }
+  .form-header { margin-bottom: 2rem; }
 
   .form-header h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -212,10 +288,39 @@
     margin-bottom: 0.4rem;
   }
 
-  .form-header p {
+  .form-header p { font-size: 0.9rem; color: var(--warm-gray); line-height: 1.7; }
+
+  .photo-tip {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .photo-tip p { font-size: 0.9rem; color: var(--ink); line-height: 1.7; }
+  .photo-tip strong { font-weight: 500; color: var(--teal); }
+
+  .secret-reminder {
+    background: var(--coral-light);
+    border-left: 3px solid var(--coral);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .secret-reminder p { font-size: 0.9rem; color: var(--ink); line-height: 1.7; }
+  .secret-reminder strong { font-weight: 500; color: var(--coral); }
+
+  .error-msg {
+    background: #FEF2F2;
+    border-left: 3px solid #DC2626;
+    padding: 0.75rem 1rem;
     font-size: 0.875rem;
-    color: var(--warm-gray);
-    line-height: 1.7;
+    color: #991B1B;
+    margin-bottom: 1.5rem;
+    display: none;
+    border-radius: 0 4px 4px 0;
   }
 
   .field { margin-bottom: 2rem; }
@@ -227,9 +332,7 @@
     margin-bottom: 2rem;
   }
 
-  @media (max-width: 480px) {
-    .field-row { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
 
   label {
     display: block;
@@ -250,15 +353,12 @@
     margin-left: 4px;
   }
 
-  input[type="text"],
-  input[type="email"],
-  textarea,
-  select {
+  input[type="text"], input[type="email"], textarea {
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid var(--border-soft);
-    padding: 0.55rem 0 0.55rem;
+    border-bottom: 1.5px solid var(--border-soft);
+    padding: 0.55rem 0;
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.15rem;
     color: var(--ink);
@@ -266,230 +366,136 @@
     transition: border-color 0.25s;
     border-radius: 0;
     -webkit-appearance: none;
-    appearance: none;
   }
 
-  input:focus, textarea:focus, select:focus {
-    border-bottom-color: var(--gold);
-  }
+  input:focus, textarea:focus { border-bottom-color: var(--coral); }
+  input::placeholder, textarea::placeholder { color: var(--mid); font-style: italic; }
 
-  input::placeholder, textarea::placeholder {
-    color: var(--mid);
-    font-style: italic;
-  }
+  textarea { resize: none; height: 130px; line-height: 1.65; }
 
-  textarea {
-    resize: none;
-    height: 130px;
-    line-height: 1.65;
-  }
+  .counter { display: flex; justify-content: flex-end; margin-top: 0.4rem; }
 
-  .counter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 0.4rem;
-  }
+  .counter-num { font-size: 10px; color: var(--mid); letter-spacing: 0.05em; transition: color 0.2s; }
+  .counter-num.warn { color: var(--coral); }
 
-  .counter-num {
-    font-size: 10px;
-    color: var(--mid);
-    letter-spacing: 0.05em;
-    transition: color 0.2s;
-  }
-
-  .counter-num.warn { color: var(--rust); }
-
-  /* Photo upload */
   .upload-zone {
-    border: 1px dashed var(--border);
+    border: 1.5px dashed rgba(30,158,143,0.4);
+    border-radius: 4px;
     padding: 2.25rem 1.5rem;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.25s, background 0.25s;
     position: relative;
+    background: var(--teal-light);
   }
 
   .upload-zone:hover, .upload-zone.drag {
-    border-color: var(--gold);
-    background: var(--gold-light);
+    border-color: var(--teal);
+    background: rgba(30,158,143,0.1);
   }
 
   .upload-zone input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
   }
 
-  .upload-icon {
-    width: 28px;
-    height: 28px;
-    margin: 0 auto 0.8rem;
-    color: var(--gold);
-    opacity: 0.6;
-  }
+  .upload-icon { width: 30px; height: 30px; margin: 0 auto 0.8rem; color: var(--teal); }
 
-  .upload-text {
-    font-size: 0.875rem;
-    color: var(--warm-gray);
-    line-height: 1.6;
-  }
+  .upload-text { font-size: 0.9rem; color: var(--ink); line-height: 1.6; }
 
   .upload-text a {
-    color: var(--gold);
+    color: var(--teal);
     text-decoration: underline;
     text-underline-offset: 2px;
     cursor: pointer;
+    font-weight: 500;
   }
 
-  .upload-sub {
-    font-size: 11px;
-    color: var(--mid);
-    margin-top: 0.3rem;
-  }
+  .upload-sub { font-size: 11px; color: var(--warm-gray); margin-top: 0.3rem; }
 
-  .thumbs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 1rem;
-  }
+  .thumbs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
 
-  .thumb-wrap {
-    position: relative;
-    width: 76px;
-    height: 76px;
-  }
+  .thumb-wrap { position: relative; width: 80px; height: 80px; }
 
   .thumb-wrap img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    border: 1px solid var(--border);
+    border-radius: 3px;
+    border: 2px solid var(--teal);
     display: block;
   }
 
   .thumb-remove {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 18px;
-    height: 18px;
-    background: var(--ink);
-    color: var(--cream);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 11px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute; top: -7px; right: -7px;
+    width: 20px; height: 20px;
+    background: var(--coral); color: #fff;
+    border: none; border-radius: 50%;
+    cursor: pointer; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
   }
 
-  .photo-note {
-    font-size: 11px;
+  .multi-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.975rem;
     color: var(--warm-gray);
     margin-top: 0.75rem;
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.95rem;
+    line-height: 1.6;
+    display: none;
   }
 
-  /* Privacy note */
-  .privacy-note {
-    background: var(--gold-light);
-    border-left: 2px solid var(--gold);
-    padding: 1rem 1.25rem;
-    margin-bottom: 2rem;
-    font-size: 0.875rem;
-    color: var(--warm-gray);
-    line-height: 1.7;
-  }
-
-  .privacy-note strong {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  /* Submit */
-  .submit-row {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
+  .submit-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; }
 
   .btn {
-    background: var(--ink);
-    color: var(--cream);
+    background: linear-gradient(135deg, var(--coral) 0%, var(--violet) 100%);
+    color: #fff;
     border: none;
-    padding: 1.05rem 2.75rem;
+    padding: 1.1rem 2.75rem;
     font-family: 'Jost', sans-serif;
     font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background 0.25s;
+    transition: opacity 0.25s, transform 0.15s;
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
+    border-radius: 2px;
   }
 
-  .btn:hover { background: var(--rust); }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   .btn svg { width: 14px; height: 14px; }
 
-  .submit-aside {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--mid);
-  }
-
-  /* Error */
-  .error-msg {
-    background: #FEF2F2;
-    border-left: 2px solid #DC2626;
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-    color: #991B1B;
-    margin-bottom: 1.5rem;
+  .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
     display: none;
   }
 
-  /* ── SUCCESS ── */
-  .success-screen {
-    display: none;
-    text-align: center;
-    padding: 5rem 1rem;
-  }
-
+  /* SUCCESS */
+  .success-screen { display: none; text-align: center; padding: 5rem 1rem; }
   .success-screen.show { display: block; }
 
   .success-mark {
-    width: 56px;
-    height: 56px;
-    border: 1px solid var(--gold);
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, var(--coral), var(--violet));
     border-radius: 50%;
     margin: 0 auto 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
   }
 
-  .success-mark svg { width: 22px; height: 22px; }
+  .success-mark svg { width: 26px; height: 26px; }
 
   .success-screen h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.25rem;
-    font-weight: 300;
+    font-size: 2.5rem; font-weight: 300;
     margin-bottom: 0.75rem;
   }
 
@@ -497,78 +503,70 @@
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     color: var(--warm-gray);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     line-height: 1.7;
-    max-width: 360px;
-    margin: 0 auto;
+    max-width: 380px;
+    margin: 0 auto 0.75rem;
   }
 
-  /* ── HOW IT WORKS ── */
-  .how {
-    border-top: 0.5px solid var(--border);
-    padding: 3.5rem 0 4rem;
+  .success-again {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal);
+    text-decoration: underline; text-underline-offset: 3px;
+    cursor: pointer; background: none; border: none;
+    font-family: 'Jost', sans-serif; margin-top: 0.75rem;
   }
+
+  /* HOW IT WORKS */
+  .how { border-top: 1.5px solid var(--border); padding: 3.5rem 0 4rem; }
 
   .how h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7rem;
-    font-weight: 400;
+    font-size: 1.8rem; font-weight: 400;
     margin-bottom: 2rem;
   }
 
-  .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+  .steps { display: flex; flex-direction: column; }
 
   .step {
-    display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding: 1.25rem 0;
+    border-bottom: 0.5px solid var(--border);
   }
+
+  .step:last-child { border-bottom: none; }
 
   .step-n {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.25rem;
-    font-weight: 300;
-    color: var(--gold);
-    opacity: 0.55;
-    line-height: 1;
-    min-width: 1.75rem;
-    padding-top: 0.2rem;
+    font-size: 2.5rem; font-weight: 300;
+    line-height: 1; min-width: 2rem;
+    padding-top: 0.15rem; flex-shrink: 0;
   }
 
-  .step-body {
-    font-size: 0.925rem;
-    line-height: 1.85;
-    color: var(--ink);
-    padding-top: 0.3rem;
-  }
+  .step:nth-child(1) .step-n { color: var(--coral); }
+  .step:nth-child(2) .step-n { color: var(--gold); }
+  .step:nth-child(3) .step-n { color: var(--violet); }
+  .step:nth-child(4) .step-n { color: var(--teal); }
 
+  .step-body { font-size: 0.95rem; line-height: 1.85; color: var(--ink); padding-top: 0.5rem; }
   .step-body strong { font-weight: 500; }
 
-  /* ── FOOTER ── */
+  /* FOOTER */
   footer {
-    border-top: 0.5px solid var(--border);
-    padding: 1.75rem 0;
+    background: var(--ink);
+    color: rgba(255,255,255,0.45);
+    padding: 2rem 0;
     text-align: center;
     font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--mid);
+    letter-spacing: 0.1em;
   }
 
-  /* Animations */
+  footer span { color: var(--gold); }
+
   @keyframes up {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Loading spinner */
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(246,241,233,0.3);
-    border-top-color: var(--cream);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: none;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -576,47 +574,79 @@
 </head>
 <body>
 
+<header class="hero-band">
+  <p class="hero-eyebrow">A gift for Robin · June 1, 2026</p>
+  <h1>60<em>Voices</em></h1>
+  <div class="hero-divider"></div>
+  <p class="hero-tagline">She turns 60 on June 1. Leave her a note, share a memory, and help create something she will keep forever.</p>
+</header>
+
+<div class="secret-banner">
+  🤫 &nbsp;This is a surprise — please don't share this page with Robin
+</div>
+
 <div class="wrap">
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-rule"><span>A gift for Robin</span></div>
-    <h1>60<em>Voices</em></h1>
-    <div class="hero-divider"></div>
-    <p class="hero-tagline">She is turning 60 on June 1. Leave her a note. Share a memory. It will become something she keeps forever.</p>
-  </header>
-
-  <!-- INTRO -->
   <section class="intro">
-    <p>Robin Shaddy is someone who has shown up — fully, generously, and with her whole self — across many chapters and many lives. On June 1, she turns 60.</p>
-    <p>The people who love Robin are spread across the country and across the years. This page is a way of gathering all of you together. <strong>Every note left here — and every photograph shared — will be given to artist Cagney King,</strong> who will use them as the foundation for a portrait of Robin.</p>
-    <p>Not a traditional likeness. <em>A painting that captures who she is, told through the words and images of the people who know her.</em> The finished work will be gifted to Robin — a surprise she won't see coming.</p>
-    <p>On June 1, a selection of your notes will be read aloud to Robin as part of her celebration. She will hear your voice, even if you can't be there.</p>
+    <p>Robin Shaddy turns 60 on June 1. She has shown up — fully, generously, with her whole self — across many chapters and many lives, and the people who love her are coming together to mark this moment in a way that feels equal to who she is.</p>
+    <p>Your note will be <strong>read aloud to Robin on her birthday</strong>. Your words and photos will also go to an artist creating a painted portrait of Robin — a surprise gift she won't know about until it's finished.</p>
   </section>
 
-  <!-- PROMPT -->
-  <div class="prompt">
-    <span class="prompt-tag">Your prompt</span>
-    <div class="prompt-body">In a few sentences — who is Robin to you? What do you want for her in this next chapter? What should the painter know about her?</div>
+  <div class="journey">
+    <div class="journey-header">
+      <span class="j-label">60 at 60 · A Year of Intention</span>
+      <h2>A woman in full motion</h2>
+    </div>
+    <div class="journey-body">
+      <p>Robin has mapped her 60th year as a deliberate journey of self-discovery, guided by a mantra she wrote for herself:</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;line-height:1.75;border-left:3px solid var(--violet);padding-left:1rem;margin:1.25rem 0;color:#3D2A5C;">"Inhabiting who I already am. I choose to live it awake and with more honesty, connectedness, fun and care. I release the past to make room for a powerful future. Action creates clarity. I choose where my energy goes."</p>
+      <p>She has mapped this year across <strong>12 chapters of her life</strong> — each one an area she is tending with intention:</p>
+      <div class="journey-pillars">
+        <div class="pillar"><div class="pillar-dot" style="background:var(--coral)"></div><div class="pillar-text">Seeking places that will change and inspire her</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--gold)"></div><div class="pillar-text">Us, Intentionally — tending her most important relationship</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--violet)"></div><div class="pillar-text">Becoming more fully herself</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--teal)"></div><div class="pillar-text">Staying connected as her kids become themselves</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--coral)"></div><div class="pillar-text">Acts of care & connection</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--gold)"></div><div class="pillar-text">Letting go & making space</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--violet)"></div><div class="pillar-text">Tending the body she lives in</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--teal)"></div><div class="pillar-text">Friendship & chosen family</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--coral)"></div><div class="pillar-text">Creativity without outcome</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--gold)"></div><div class="pillar-text">Meaning, spirit & inner life</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--violet)"></div><div class="pillar-text">Home as a reflection of who she is now</div></div>
+        <div class="pillar"><div class="pillar-dot" style="background:var(--teal)"></div><div class="pillar-text">Looking back, looking ahead</div></div>
+      </div>
+      <p>Your words and photos will join her own writing to give the artist a full picture of Robin — as she sees herself, and as the people who love her see her.</p>
+    </div>
   </div>
 
-  <!-- FORM -->
+  <div class="prompt">
+    <span class="prompt-tag">Your prompt</span>
+    <div class="prompt-body">Who is Robin to you? What do you want for her in this next chapter? What should the artist know about her — her spirit, her color, her way of moving through the world?</div>
+  </div>
+
   <section class="form-section" id="formSection">
     <div class="form-header">
       <h2>Leave your voice</h2>
-      <p>Your note and any photos you share will go directly to Aaron, and eventually to the artist. Robin won't see this page.</p>
+      <p>Your note will be read to Robin on her birthday. Your words and photos go to the artist for her portrait.</p>
     </div>
 
-    <div class="privacy-note">
-      <strong>A note on privacy:</strong> This page is not public and Robin does not have the link. Everything you submit goes only to Aaron. Your email will never be shared or used for anything other than a thank-you from him.
+    <div style="background:var(--gold-light);border-left:3px solid var(--gold);padding:1rem 1.25rem;margin-bottom:1.5rem;border-radius:0 4px 4px 0;">
+      <p style="font-size:0.9rem;color:var(--ink);line-height:1.7;"><strong style="font-weight:500;color:var(--gold);">Notes due Friday, May 29</strong> — so we can include them in Robin's June 1 celebration. Adding more thoughts or photos after that is welcome — everything you share goes to the artist for her portrait.</p>
     </div>
 
-    <div class="error-msg" id="errorMsg">Something went wrong. Please try again, or email Aaron directly at ashaddy@gmail.com.</div>
+    <div class="photo-tip">
+      <p><strong>Photos are optional but meaningful.</strong> A picture of you with Robin — from any chapter — gives the artist something real to work with. Don't have one handy? Submit your note now and come back to add a photo later. You can submit more than once.</p>
+    </div>
 
-    <!-- IMPORTANT: Replace YOUR_FORM_ID with your Formspree form ID -->
-    <form id="voiceForm" action="https://formspree.io/f/mwvywyyw" method="POST" enctype="multipart/form-data" novalidate>
+    <div class="secret-reminder">
+      <p><strong>Please keep this a surprise.</strong> Robin will hear your notes on her birthday. The painting is a separate gift she won't know about until it's finished. Please don't mention the painting to her.</p>
+    </div>
 
-      <!-- Formspree requires _replyto for reply-to email -->
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
+    <form id="voiceForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" enctype="multipart/form-data" novalidate>
+
       <input type="hidden" name="_subject" value="60 Voices for Robin — new submission">
 
       <div class="field-row">
@@ -639,23 +669,22 @@
         <label for="note">Your note to Robin</label>
         <textarea id="note" name="note" placeholder="Write freely. There are no rules here, and no wrong answers." maxlength="800" required></textarea>
         <div class="counter">
-          <span></span>
           <span class="counter-num" id="counterNum">0 / 800</span>
         </div>
       </div>
 
       <div class="field">
-        <label>Photos of you with Robin <span class="opt">(optional — up to 3)</span></label>
+        <label>A photo or two <span class="opt">(optional — up to 3)</span></label>
         <div class="upload-zone" id="uploadZone">
           <input type="file" id="photoInput" name="photos" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
           <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5A.75.75 0 0121 3.75v13.5a.75.75 0 01-.75.75H3.75A.75.75 0 013 17.25V3.75A.75.75 0 013.75 3zM9.75 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
           </svg>
-          <div class="upload-text">Drop photos here, or <a onclick="document.getElementById('photoInput').click(); event.preventDefault();">browse</a></div>
+          <div class="upload-text">Drop photos here, or <a onclick="document.getElementById('photoInput').click(); event.preventDefault();">browse your device</a></div>
           <div class="upload-sub">JPG or PNG · up to 3 photos · 10MB each</div>
         </div>
         <div class="thumbs" id="thumbs"></div>
-        <p class="photo-note" id="photoNote" style="display:none">The artist will use these alongside your words. They don't need to be perfect.</p>
+        <p class="multi-note" id="multiNote">No photo yet? Submit your note and come back — you can add photos anytime.</p>
       </div>
 
       <div class="submit-row">
@@ -664,60 +693,57 @@
           <svg id="btnArrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
           <div class="spinner" id="spinner"></div>
         </button>
-        <span class="submit-aside">Robin won't see this. Aaron will.</span>
       </div>
 
     </form>
 
-    <!-- Success -->
     <div class="success-screen" id="successScreen">
       <div class="success-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
         </svg>
       </div>
       <h2>Your voice has been added.</h2>
       <p>Thank you. What you wrote will be part of something Robin keeps for the rest of her life.</p>
+      <p>If you'd like to add a photo or leave another note, you're welcome to.</p>
+      <button class="success-again" onclick="resetForm()">Submit another note or photo →</button>
     </div>
 
   </section>
 
-  <!-- HOW IT WORKS -->
   <section class="how">
-    <h2>How this becomes a painting</h2>
+    <h2>How this becomes a gift</h2>
     <div class="steps">
       <div class="step">
         <div class="step-n">1</div>
-        <div class="step-body"><strong>Your words are read aloud on her birthday.</strong> A selection of notes will be shared with Robin as part of her June 1 celebration. She will hear voices from across her life — people who couldn't be in the room.</div>
+        <div class="step-body"><strong>Your words reach Robin on her birthday.</strong> Notes will be read aloud to Robin on June 1 — voices from across her life, gathered in one place.</div>
       </div>
       <div class="step">
         <div class="step-n">2</div>
-        <div class="step-body"><strong>Everything goes to the artist.</strong> Cagney King — whose work Robin already loves — will receive every note, every photograph, and Robin's own private journal from her 60th year.</div>
+        <div class="step-body"><strong>Everything goes to the artist.</strong> Every note, photo, and Robin's own journal from her 60th year become the raw material for her portrait.</div>
       </div>
       <div class="step">
         <div class="step-n">3</div>
-        <div class="step-body"><strong>A portrait is made.</strong> Cagney's abstract portraiture layers texture, text, and emotion. Your words may become part of the paint itself. The finished work will reflect not just Robin's face, but who she is.</div>
+        <div class="step-body"><strong>A portrait is made.</strong> The artist weaves your words and images into a painting that captures who Robin is at this moment. Your words may become part of the paint itself.</div>
       </div>
       <div class="step">
         <div class="step-n">4</div>
-        <div class="step-body"><strong>Robin receives it as a gift.</strong> The painting will be gifted to Robin — a surprise that began here, with you.</div>
+        <div class="step-body"><strong>Robin receives it as a surprise.</strong> A gift that began here, with you.</div>
       </div>
     </div>
   </section>
 
-  <footer>
-    Made with love by Aaron, for Robin &nbsp;·&nbsp; June 1, 2026
-  </footer>
-
 </div>
 
-<script>
-  // ── Photo handling ──
-  let selectedFiles = [];
+<footer>
+  Made with love by Aaron &nbsp;·&nbsp; For <span>Robin</span> &nbsp;·&nbsp; June 1, 2026
+</footer>
 
+<script>
+  let selectedFiles = [];
   const photoInput = document.getElementById('photoInput');
   const thumbsEl   = document.getElementById('thumbs');
-  const photoNote  = document.getElementById('photoNote');
+  const multiNote  = document.getElementById('multiNote');
   const uploadZone = document.getElementById('uploadZone');
 
   photoInput.addEventListener('change', e => addFiles(e.target.files));
@@ -727,21 +753,21 @@
   uploadZone.addEventListener('drop', e => {
     e.preventDefault();
     uploadZone.classList.remove('drag');
-    // Sync dropped files into the real file input so they submit with the form
-    const dt = e.dataTransfer;
-    addFiles(dt.files);
-    // Transfer files to input via DataTransfer
-    try {
-      const transfer = new DataTransfer();
-      selectedFiles.forEach(f => transfer.items.add(f));
-      photoInput.files = transfer.files;
-    } catch(e) {}
+    addFiles(e.dataTransfer.files);
+    syncInput();
   });
+
+  function syncInput() {
+    try {
+      const t = new DataTransfer();
+      selectedFiles.forEach(f => t.items.add(f));
+      photoInput.files = t.files;
+    } catch(e) {}
+  }
 
   function addFiles(files) {
     const allowed = Array.from(files).filter(f => f.type.startsWith('image/'));
-    const remaining = 3 - selectedFiles.length;
-    const toAdd = allowed.slice(0, remaining);
+    const toAdd = allowed.slice(0, 3 - selectedFiles.length);
     toAdd.forEach(f => {
       selectedFiles.push(f);
       const wrap = document.createElement('div');
@@ -751,18 +777,10 @@
       btn.type = 'button';
       btn.className = 'thumb-remove';
       btn.innerHTML = '×';
-      btn.title = 'Remove';
       btn.onclick = () => {
-        const i = selectedFiles.indexOf(f);
-        if (i > -1) selectedFiles.splice(i, 1);
+        selectedFiles = selectedFiles.filter(sf => sf !== f);
         wrap.remove();
-        // Sync back to input
-        try {
-          const transfer = new DataTransfer();
-          selectedFiles.forEach(sf => transfer.items.add(sf));
-          photoInput.files = transfer.files;
-        } catch(e) {}
-        if (selectedFiles.length === 0) photoNote.style.display = 'none';
+        syncInput();
       };
       const reader = new FileReader();
       reader.onload = e => img.src = e.target.result;
@@ -771,16 +789,9 @@
       wrap.appendChild(btn);
       thumbsEl.appendChild(wrap);
     });
-    if (selectedFiles.length > 0) photoNote.style.display = 'block';
-    // Sync to input
-    try {
-      const transfer = new DataTransfer();
-      selectedFiles.forEach(sf => transfer.items.add(sf));
-      photoInput.files = transfer.files;
-    } catch(e) {}
+    syncInput();
   }
 
-  // ── Character counter ──
   const noteEl    = document.getElementById('note');
   const counterEl = document.getElementById('counterNum');
 
@@ -791,43 +802,33 @@
     counterEl.className = 'counter-num' + (len > max * 0.88 ? ' warn' : '');
   });
 
-  // ── Form submission ──
-  // Uses native multipart/form-data so Formspree receives photos as real file attachments.
-  // Photos are viewable in the Formspree dashboard and emailed as attachments.
-  // Requires Formspree Personal plan ($10/mo) or higher for file uploads.
-
   document.getElementById('voiceForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const name = document.getElementById('fname').value.trim();
     const note = noteEl.value.trim();
+    const errEl = document.getElementById('errorMsg');
 
     if (!name || !note) {
-      const err = document.getElementById('errorMsg');
-      err.textContent = 'Please add your name and a note before submitting.';
-      err.style.display = 'block';
+      errEl.textContent = 'Please add your name and a note before submitting.';
+      errEl.style.display = 'block';
       return;
     }
 
-    // UI: loading state
     const btn     = document.getElementById('submitBtn');
     const btnText = document.getElementById('btnText');
     const btnArr  = document.getElementById('btnArrow');
     const spinner = document.getElementById('spinner');
-    btn.disabled  = true;
+    btn.disabled = true;
     btnText.textContent = 'Sending…';
     btnArr.style.display = 'none';
     spinner.style.display = 'block';
-    document.getElementById('errorMsg').style.display = 'none';
-
-    // Build FormData — this sends files as real attachments
-    const formData = new FormData(e.target);
+    errEl.style.display = 'none';
 
     try {
       const res = await fetch(e.target.action, {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
-        body: formData
+        body: new FormData(e.target)
       });
 
       if (res.ok) {
@@ -835,7 +836,7 @@
         document.getElementById('successScreen').classList.add('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         throw new Error(data?.errors?.[0]?.message || 'Server error');
       }
     } catch (err) {
@@ -843,11 +844,25 @@
       btnText.textContent = 'Send my voice';
       btnArr.style.display = '';
       spinner.style.display = 'none';
-      const errEl = document.getElementById('errorMsg');
       errEl.textContent = 'Something went wrong. Please try again, or email Aaron directly at ashaddy@gmail.com.';
       errEl.style.display = 'block';
     }
   });
+
+  function resetForm() {
+    document.getElementById('voiceForm').reset();
+    document.getElementById('voiceForm').style.display = 'block';
+    document.getElementById('successScreen').classList.remove('show');
+    selectedFiles = [];
+    thumbsEl.innerHTML = '';
+    counterEl.textContent = '0 / 800';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    document.getElementById('btnText').textContent = 'Send my voice';
+    document.getElementById('btnArrow').style.display = '';
+    document.getElementById('spinner').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 </script>
 </body>
 </html>
